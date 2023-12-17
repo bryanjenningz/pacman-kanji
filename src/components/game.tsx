@@ -15,9 +15,9 @@ const levelMap = [
   "#      #      #",
   "# #### # #### #",
   "#             #",
-  "## ##   M ## ##",
-  "#     M M     #",
-  "# ###  M  ### #",
+  "## ##     ## ##",
+  "#             #",
+  "# ###     ### #",
   "#             #",
   "# #### # #### #",
   "#    #   #    #",
@@ -27,7 +27,6 @@ const levelMap = [
   "#             #",
   "###############",
 ].map((row) => row.split(""));
-const levelMapMonster = "M";
 const levelMapWall = "#";
 
 const kanjiValues: Kanji[] = [
