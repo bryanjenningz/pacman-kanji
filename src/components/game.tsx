@@ -4,12 +4,6 @@ type Direction = "LEFT" | "RIGHT" | "UP" | "DOWN";
 
 type Kanji = { kanji: string; meaning: string };
 
-const initialDirection: Direction = "LEFT";
-const blockWidth = 20;
-const screenWidth = 300;
-const speed = 2;
-const initialPosition = { x: blockWidth * 7, y: blockWidth * 11 };
-
 const levelMap = [
   "###############",
   "#      #      #",
@@ -42,12 +36,25 @@ const kanjiValues: Kanji[] = [
   { kanji: "十", meaning: "ten" },
 ];
 
+const initialDirection: Direction = "LEFT";
+const blockWidth = 20;
+const screenWidth = 300;
+const speed = 2;
+const initialPosition = { x: blockWidth * 7, y: blockWidth * 11 };
+const initialKanjiMonsters = [
+  { kanjiValue: kanjiValues[0]!, x: blockWidth * 6, y: blockWidth * 5 },
+  { kanjiValue: kanjiValues[1]!, x: blockWidth * 7, y: blockWidth * 5 },
+  { kanjiValue: kanjiValues[2]!, x: blockWidth * 6, y: blockWidth * 6 },
+  { kanjiValue: kanjiValues[3]!, x: blockWidth * 7, y: blockWidth * 6 },
+];
+
 export function Game() {
   const [{ x, y }, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState(initialDirection);
   const keysDown = useRef(new Set<string>());
   const [kanjiIndex, setKanjiIndex] = useState(0);
   const kanjiValue = kanjiValues[kanjiIndex];
+  const [kanjiMonsters, setKanjiMonsters] = useState(initialKanjiMonsters);
 
   useEffect(() => {
     let isActive = true;
@@ -127,6 +134,22 @@ export function Game() {
           className="absolute z-10 bg-blue-500"
           style={{ width: blockWidth, height: blockWidth, left: x, top: y }}
         ></div>
+
+        {kanjiMonsters.map((kanjiMonster) => {
+          return (
+            <div
+              className="absolute z-10 flex items-center justify-center bg-black text-white"
+              style={{
+                width: blockWidth,
+                height: blockWidth,
+                left: kanjiMonster.x,
+                top: kanjiMonster.y,
+              }}
+            >
+              {kanjiMonster.kanjiValue.kanji}
+            </div>
+          );
+        })}
       </div>
 
       <div className="text-center text-xl text-slate-300">
