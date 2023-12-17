@@ -84,27 +84,32 @@ const kanjiValues: KanjiValue[] = [
 ];
 
 type KanjiMonster = {
+  id: number;
   kanjiValue: KanjiValue;
   position: Position;
   path: Position[];
 };
 const initialKanjiMonsters: KanjiMonster[] = [
   {
+    id: 0,
     kanjiValue: kanjiValues[0]!,
     position: { x: blockWidth * 6, y: blockWidth * 4 },
     path: [],
   },
   {
+    id: 1,
     kanjiValue: kanjiValues[1]!,
     position: { x: blockWidth * 8, y: blockWidth * 4 },
     path: [],
   },
   {
+    id: 2,
     kanjiValue: kanjiValues[2]!,
     position: { x: blockWidth * 6, y: blockWidth * 6 },
     path: [],
   },
   {
+    id: 3,
     kanjiValue: kanjiValues[3]!,
     position: { x: blockWidth * 8, y: blockWidth * 6 },
     path: [],
@@ -238,6 +243,7 @@ export function Game() {
         {kanjiMonsters.map((kanjiMonster) => {
           return (
             <div
+              key={kanjiMonster.id}
               className="absolute z-10 flex items-center justify-center bg-black text-white"
               style={{
                 width: blockWidth,
