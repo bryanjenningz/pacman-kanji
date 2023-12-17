@@ -22,6 +22,14 @@ const levelMap = [
   "###############",
 ].map((row) => row.split(""));
 const levelMapWall = "#";
+const levelMapSpaces = levelMap
+  .flatMap((row, y) => row.map((tile, x) => ({ x, y, tile })))
+  .filter(({ tile }) => tile === " ");
+
+function getRandomSpace(): { x: number; y: number } {
+  const index = Math.floor(Math.random() * levelMapSpaces.length);
+  return levelMapSpaces[index]!;
+}
 
 const kanjiValues: Kanji[] = [
   { kanji: "一", meaning: "one" },
@@ -62,17 +70,17 @@ export function Game() {
     (function update() {
       if (!isActive) return;
 
-      (() => {
-        if (keysDown.current.has("ArrowLeft")) {
-          setDirection("LEFT");
-        } else if (keysDown.current.has("ArrowRight")) {
-          setDirection("RIGHT");
-        } else if (keysDown.current.has("ArrowUp")) {
-          setDirection("UP");
-        } else if (keysDown.current.has("ArrowDown")) {
-          setDirection("DOWN");
-        }
+      if (keysDown.current.has("ArrowLeft")) {
+        setDirection("LEFT");
+      } else if (keysDown.current.has("ArrowRight")) {
+        setDirection("RIGHT");
+      } else if (keysDown.current.has("ArrowUp")) {
+        setDirection("UP");
+      } else if (keysDown.current.has("ArrowDown")) {
+        setDirection("DOWN");
+      }
 
+      (() => {
         switch (direction) {
           case "LEFT":
             return setPosition(({ x, y }) => ({
