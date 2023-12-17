@@ -130,7 +130,7 @@ export function Game() {
       </div>
 
       <div className="text-center text-xl text-slate-300">
-        {kanjiValue?.meaning}
+        {`Eat the kanji: "${kanjiValue?.meaning}"`}
       </div>
     </div>
   );
