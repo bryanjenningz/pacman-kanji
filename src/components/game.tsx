@@ -4,6 +4,12 @@ type Position = { x: number; y: number };
 
 type Direction = "LEFT" | "RIGHT" | "UP" | "DOWN";
 
+const initialDirection: Direction = "LEFT";
+const blockWidth = 20;
+const screenWidth = 300;
+const speed = 2;
+const initialPosition: Position = { x: blockWidth * 7, y: blockWidth * 11 };
+
 const levelMap = [
   "###############",
   "#      #      #",
@@ -71,12 +77,6 @@ const kanjiValues: KanjiValue[] = [
   { kanji: "九", meaning: "nine" },
   { kanji: "十", meaning: "ten" },
 ];
-
-const initialDirection: Direction = "LEFT";
-const blockWidth = 20;
-const screenWidth = 300;
-const speed = 2;
-const initialPosition: Position = { x: blockWidth * 7, y: blockWidth * 11 };
 
 type KanjiMonster = {
   kanjiValue: KanjiValue;
