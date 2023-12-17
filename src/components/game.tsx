@@ -42,10 +42,10 @@ const screenWidth = 300;
 const speed = 2;
 const initialPosition = { x: blockWidth * 7, y: blockWidth * 11 };
 const initialKanjiMonsters = [
-  { kanjiValue: kanjiValues[0]!, x: blockWidth * 6, y: blockWidth * 5 },
-  { kanjiValue: kanjiValues[1]!, x: blockWidth * 7, y: blockWidth * 5 },
+  { kanjiValue: kanjiValues[0]!, x: blockWidth * 6, y: blockWidth * 4 },
+  { kanjiValue: kanjiValues[1]!, x: blockWidth * 8, y: blockWidth * 4 },
   { kanjiValue: kanjiValues[2]!, x: blockWidth * 6, y: blockWidth * 6 },
-  { kanjiValue: kanjiValues[3]!, x: blockWidth * 7, y: blockWidth * 6 },
+  { kanjiValue: kanjiValues[3]!, x: blockWidth * 8, y: blockWidth * 6 },
 ];
 
 export function Game() {
