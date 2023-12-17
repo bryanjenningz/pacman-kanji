@@ -78,11 +78,29 @@ const blockWidth = 20;
 const screenWidth = 300;
 const speed = 2;
 const initialPosition: Position = { x: blockWidth * 7, y: blockWidth * 11 };
-const initialKanjiMonsters = [
-  { kanjiValue: kanjiValues[0]!, x: blockWidth * 6, y: blockWidth * 4 },
-  { kanjiValue: kanjiValues[1]!, x: blockWidth * 8, y: blockWidth * 4 },
-  { kanjiValue: kanjiValues[2]!, x: blockWidth * 6, y: blockWidth * 6 },
-  { kanjiValue: kanjiValues[3]!, x: blockWidth * 8, y: blockWidth * 6 },
+
+type KanjiMonster = { kanjiValue: Kanji; position: Position; path: Position[] };
+const initialKanjiMonsters: KanjiMonster[] = [
+  {
+    kanjiValue: kanjiValues[0]!,
+    position: { x: blockWidth * 6, y: blockWidth * 4 },
+    path: [],
+  },
+  {
+    kanjiValue: kanjiValues[1]!,
+    position: { x: blockWidth * 8, y: blockWidth * 4 },
+    path: [],
+  },
+  {
+    kanjiValue: kanjiValues[2]!,
+    position: { x: blockWidth * 6, y: blockWidth * 6 },
+    path: [],
+  },
+  {
+    kanjiValue: kanjiValues[3]!,
+    position: { x: blockWidth * 8, y: blockWidth * 6 },
+    path: [],
+  },
 ];
 
 export function Game() {
