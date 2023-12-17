@@ -4,8 +4,6 @@ type Position = { x: number; y: number };
 
 type Direction = "LEFT" | "RIGHT" | "UP" | "DOWN";
 
-type Kanji = { kanji: string; meaning: string };
-
 const levelMap = [
   "###############",
   "#      #      #",
@@ -60,7 +58,8 @@ function findShortestPath(from: Position, to: Position): Position[] {
   return search(from, []) ?? [to];
 }
 
-const kanjiValues: Kanji[] = [
+type KanjiValue = { kanji: string; meaning: string };
+const kanjiValues: KanjiValue[] = [
   { kanji: "一", meaning: "one" },
   { kanji: "二", meaning: "two" },
   { kanji: "三", meaning: "three" },
@@ -79,7 +78,11 @@ const screenWidth = 300;
 const speed = 2;
 const initialPosition: Position = { x: blockWidth * 7, y: blockWidth * 11 };
 
-type KanjiMonster = { kanjiValue: Kanji; position: Position; path: Position[] };
+type KanjiMonster = {
+  kanjiValue: KanjiValue;
+  position: Position;
+  path: Position[];
+};
 const initialKanjiMonsters: KanjiMonster[] = [
   {
     kanjiValue: kanjiValues[0]!,
@@ -197,8 +200,8 @@ export function Game() {
               style={{
                 width: blockWidth,
                 height: blockWidth,
-                left: kanjiMonster.x,
-                top: kanjiMonster.y,
+                left: kanjiMonster.position.x,
+                top: kanjiMonster.position.y,
               }}
             >
               {kanjiMonster.kanjiValue.kanji}
