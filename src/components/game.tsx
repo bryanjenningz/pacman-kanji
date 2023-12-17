@@ -4,11 +4,11 @@ type Direction = "LEFT" | "RIGHT" | "UP" | "DOWN";
 
 type Kanji = { kanji: string; meaning: string };
 
-const initialPosition = { x: 200, y: 200 };
 const initialDirection: Direction = "LEFT";
 const blockWidth = 20;
 const screenWidth = 300;
 const speed = 2;
+const initialPosition = { x: blockWidth * 7, y: blockWidth * 11 };
 
 const levelMap = [
   "###############",
@@ -124,7 +124,7 @@ export function Game() {
         style={{ width: screenWidth, height: screenWidth }}
       >
         <div
-          className="absolute bg-blue-500"
+          className="absolute z-10 bg-blue-500"
           style={{ width: blockWidth, height: blockWidth, left: x, top: y }}
         ></div>
       </div>
