@@ -130,30 +130,30 @@ export function Game() {
         setDirection("DOWN");
       }
 
-      (() => {
+      setPosition(({ x, y }) => {
         switch (direction) {
           case "LEFT":
-            return setPosition(({ x, y }) => ({
+            return {
               x: Math.max(0, x - speed),
               y,
-            }));
+            };
           case "RIGHT":
-            return setPosition(({ x, y }) => ({
+            return {
               x: Math.min(screenWidth - blockWidth, x + speed),
               y,
-            }));
+            };
           case "UP":
-            return setPosition(({ x, y }) => ({
+            return {
               x,
               y: Math.max(0, y - speed),
-            }));
+            };
           case "DOWN":
-            return setPosition(({ x, y }) => ({
+            return {
               x,
               y: Math.min(screenWidth - blockWidth, y + speed),
-            }));
+            };
         }
-      })();
+      });
 
       requestAnimationFrame(update);
     })();
