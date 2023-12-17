@@ -28,6 +28,11 @@ const levelMap = [
   "###############",
 ].map((row) => row.split(""));
 const levelMapWall = "#";
+const levelMapWalls = levelMap
+  .flatMap((row, y) =>
+    row.map((tile, x) => ({ x: blockWidth * x, y: blockWidth * y, tile })),
+  )
+  .filter(({ tile }) => tile === levelMapWall);
 const levelMapSpaces = levelMap
   .flatMap((row, y) =>
     row.map((tile, x) => ({ x: blockWidth * x, y: blockWidth * y, tile })),
@@ -106,6 +111,15 @@ const initialKanjiMonsters: KanjiMonster[] = [
   },
 ];
 
+function isOverlapping<P extends Position>(a: P, b: P): boolean {
+  return (
+    a.x > b.x - blockWidth &&
+    a.x < b.x + blockWidth &&
+    a.y > b.y - blockWidth &&
+    a.y < b.y + blockWidth
+  );
+}
+
 export function Game() {
   const [{ x, y }, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState(initialDirection);
@@ -132,26 +146,54 @@ export function Game() {
 
       setPosition(({ x, y }) => {
         switch (direction) {
-          case "LEFT":
-            return {
+          case "LEFT": {
+            const newPosition = {
               x: Math.max(0, x - speed),
               y,
             };
-          case "RIGHT":
-            return {
+            if (
+              levelMapWalls.some((space) => isOverlapping(newPosition, space))
+            ) {
+              return { x, y };
+            }
+            return newPosition;
+          }
+          case "RIGHT": {
+            const newPosition = {
               x: Math.min(screenWidth - blockWidth, x + speed),
               y,
             };
-          case "UP":
-            return {
+            if (
+              levelMapWalls.some((space) => isOverlapping(newPosition, space))
+            ) {
+              return { x, y };
+            }
+            return newPosition;
+          }
+          case "UP": {
+            const newPosition = {
               x,
               y: Math.max(0, y - speed),
             };
-          case "DOWN":
-            return {
+            if (
+              levelMapWalls.some((space) => isOverlapping(newPosition, space))
+            ) {
+              return { x, y };
+            }
+            return newPosition;
+          }
+          case "DOWN": {
+            const newPosition = {
               x,
               y: Math.min(screenWidth - blockWidth, y + speed),
             };
+            if (
+              levelMapWalls.some((space) => isOverlapping(newPosition, space))
+            ) {
+              return { x, y };
+            }
+            return newPosition;
+          }
         }
       });
 
