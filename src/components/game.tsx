@@ -2,16 +2,33 @@ import { useEffect, useRef, useState } from "react";
 
 type Direction = "LEFT" | "RIGHT" | "UP" | "DOWN";
 
+type Kanji = { kanji: string; meaning: string };
+
 const initialPosition = { x: 200, y: 200 };
 const initialDirection: Direction = "LEFT";
 const blockWidth = 20;
 const screenWidth = 300;
 const speed = 2;
 
+const kanjiValues: Kanji[] = [
+  { kanji: "一", meaning: "one" },
+  { kanji: "二", meaning: "two" },
+  { kanji: "三", meaning: "three" },
+  { kanji: "四", meaning: "four" },
+  { kanji: "五", meaning: "five" },
+  { kanji: "六", meaning: "six" },
+  { kanji: "七", meaning: "seven" },
+  { kanji: "八", meaning: "eight" },
+  { kanji: "九", meaning: "nine" },
+  { kanji: "十", meaning: "ten" },
+] as const;
+
 export function Game() {
   const [{ x, y }, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState(initialDirection);
   const keysDown = useRef(new Set<string>());
+  const [kanjiIndex, setKanjiIndex] = useState(0);
+  const kanjiValue = kanjiValues[kanjiIndex];
 
   useEffect(() => {
     let isActive = true;
@@ -80,14 +97,20 @@ export function Game() {
   }, []);
 
   return (
-    <div
-      className="relative bg-slate-800"
-      style={{ width: screenWidth, height: screenWidth }}
-    >
+    <div className="flex flex-col gap-2">
       <div
-        className="absolute bg-blue-500"
-        style={{ width: blockWidth, height: blockWidth, left: x, top: y }}
-      ></div>
+        className="relative bg-slate-800"
+        style={{ width: screenWidth, height: screenWidth }}
+      >
+        <div
+          className="absolute bg-blue-500"
+          style={{ width: blockWidth, height: blockWidth, left: x, top: y }}
+        ></div>
+      </div>
+
+      <div className="text-center text-xl text-slate-300">
+        {kanjiValue?.meaning}
+      </div>
     </div>
   );
 }
