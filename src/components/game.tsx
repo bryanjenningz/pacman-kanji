@@ -1,23 +1,14 @@
-import {
-  type Dispatch,
-  type MutableRefObject,
-  type SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { isOverlapping } from "~/utils/is-overlapping";
+import { useRef, useState } from "react";
 import {
   blockWidth,
   initialPosition,
   initialDirection,
-  speed,
   screenWidth,
 } from "~/utils/constants";
-import { levelMapWalls } from "~/utils/level-map";
 import { kanjiValues, initialKanjiMonsters } from "~/utils/kanji";
 import { LevelMap } from "~/components/level-map";
-import { type Direction, type Position } from "~/utils/types";
+import { useUpdate } from "~/utils/use-update";
+import { useKeys } from "~/utils/use-keys";
 
 export function Game() {
   const [{ x, y }, setPosition] = useState(initialPosition);
@@ -67,112 +58,4 @@ export function Game() {
       </div>
     </div>
   );
-}
-
-function useUpdate({
-  direction,
-  setDirection,
-  setPosition,
-  keysDown,
-}: {
-  direction: Direction;
-  setDirection: Dispatch<SetStateAction<Direction>>;
-  setPosition: Dispatch<SetStateAction<Position>>;
-  keysDown: MutableRefObject<Set<string>>;
-}) {
-  useEffect(() => {
-    let isActive = true;
-
-    (function update() {
-      if (!isActive) return;
-
-      if (keysDown.current.has("ArrowLeft")) {
-        setDirection("LEFT");
-      } else if (keysDown.current.has("ArrowRight")) {
-        setDirection("RIGHT");
-      } else if (keysDown.current.has("ArrowUp")) {
-        setDirection("UP");
-      } else if (keysDown.current.has("ArrowDown")) {
-        setDirection("DOWN");
-      }
-
-      setPosition(({ x, y }) => {
-        switch (direction) {
-          case "LEFT": {
-            const newPosition = {
-              x: Math.max(0, x - speed),
-              y,
-            };
-            if (
-              levelMapWalls.some((space) => isOverlapping(newPosition, space))
-            ) {
-              return { x, y };
-            }
-            return newPosition;
-          }
-          case "RIGHT": {
-            const newPosition = {
-              x: Math.min(screenWidth - blockWidth, x + speed),
-              y,
-            };
-            if (
-              levelMapWalls.some((space) => isOverlapping(newPosition, space))
-            ) {
-              return { x, y };
-            }
-            return newPosition;
-          }
-          case "UP": {
-            const newPosition = {
-              x,
-              y: Math.max(0, y - speed),
-            };
-            if (
-              levelMapWalls.some((space) => isOverlapping(newPosition, space))
-            ) {
-              return { x, y };
-            }
-            return newPosition;
-          }
-          case "DOWN": {
-            const newPosition = {
-              x,
-              y: Math.min(screenWidth - blockWidth, y + speed),
-            };
-            if (
-              levelMapWalls.some((space) => isOverlapping(newPosition, space))
-            ) {
-              return { x, y };
-            }
-            return newPosition;
-          }
-        }
-      });
-
-      requestAnimationFrame(update);
-    })();
-
-    return () => {
-      isActive = false;
-    };
-  }, [direction]);
-}
-
-function useKeys({ keysDown }: { keysDown: MutableRefObject<Set<string>> }) {
-  useEffect(() => {
-    function addKey(event: KeyboardEvent) {
-      keysDown.current.add(event.key);
-    }
-    function deleteKey(event: KeyboardEvent) {
-      keysDown.current.delete(event.key);
-    }
-
-    document.addEventListener("keydown", addKey);
-    document.addEventListener("keyup", deleteKey);
-
-    return () => {
-      document.removeEventListener("keydown", addKey);
-      document.removeEventListener("keyup", deleteKey);
-    };
-  }, []);
 }
