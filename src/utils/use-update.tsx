@@ -29,32 +29,53 @@ export function useUpdate({
     (function update() {
       if (!isActive) return;
 
-      setDirection((direction) => {
-        if (keysDown.current.has("ArrowLeft")) {
-          return "LEFT";
-        } else if (keysDown.current.has("ArrowRight")) {
-          return "RIGHT";
-        } else if (keysDown.current.has("ArrowUp")) {
-          return "UP";
-        } else if (keysDown.current.has("ArrowDown")) {
-          return "DOWN";
-        }
-        return direction;
-      });
-
       setPosition(({ x, y }) => {
-        const newPosition = ((): Position => {
-          switch (direction) {
-            case "LEFT":
-              return { x: Math.max(0, x - speed), y };
-            case "RIGHT":
-              return { x: Math.min(screenWidth - blockWidth, x + speed), y };
-            case "UP":
-              return { x, y: Math.max(0, y - speed) };
-            case "DOWN":
-              return { x, y: Math.min(screenWidth - blockWidth, y + speed) };
+        setDirection((direction) => {
+          if (
+            keysDown.current.has("ArrowLeft") &&
+            !levelMapWalls.some((wall) =>
+              isOverlapping(
+                wall,
+                updatePosition({ position: { x, y }, direction: "LEFT" }),
+              ),
+            )
+          ) {
+            return "LEFT";
+          } else if (
+            keysDown.current.has("ArrowRight") &&
+            !levelMapWalls.some((wall) =>
+              isOverlapping(
+                wall,
+                updatePosition({ position: { x, y }, direction: "RIGHT" }),
+              ),
+            )
+          ) {
+            return "RIGHT";
+          } else if (
+            keysDown.current.has("ArrowUp") &&
+            !levelMapWalls.some((wall) =>
+              isOverlapping(
+                wall,
+                updatePosition({ position: { x, y }, direction: "UP" }),
+              ),
+            )
+          ) {
+            return "UP";
+          } else if (
+            keysDown.current.has("ArrowDown") &&
+            !levelMapWalls.some((wall) =>
+              isOverlapping(
+                wall,
+                updatePosition({ position: { x, y }, direction: "DOWN" }),
+              ),
+            )
+          ) {
+            return "DOWN";
           }
-        })();
+          return direction;
+        });
+
+        const newPosition = updatePosition({ position: { x, y }, direction });
         if (levelMapWalls.some((wall) => isOverlapping(newPosition, wall))) {
           return { x, y };
         }
@@ -68,4 +89,23 @@ export function useUpdate({
       isActive = false;
     };
   }, [direction]);
+}
+
+function updatePosition({
+  position: { x, y },
+  direction,
+}: {
+  position: Position;
+  direction: Direction;
+}): Position {
+  switch (direction) {
+    case "LEFT":
+      return { x: Math.max(0, x - speed), y };
+    case "RIGHT":
+      return { x: Math.min(screenWidth - blockWidth, x + speed), y };
+    case "UP":
+      return { x, y: Math.max(0, y - speed) };
+    case "DOWN":
+      return { x, y: Math.min(screenWidth - blockWidth, y + speed) };
+  }
 }
