@@ -43,56 +43,22 @@ export function useUpdate({
       });
 
       setPosition(({ x, y }) => {
-        switch (direction) {
-          case "LEFT": {
-            const newPosition = {
-              x: Math.max(0, x - speed),
-              y,
-            };
-            if (
-              levelMapWalls.some((space) => isOverlapping(newPosition, space))
-            ) {
-              return { x, y };
-            }
-            return newPosition;
+        const newPosition = ((): Position => {
+          switch (direction) {
+            case "LEFT":
+              return { x: Math.max(0, x - speed), y };
+            case "RIGHT":
+              return { x: Math.min(screenWidth - blockWidth, x + speed), y };
+            case "UP":
+              return { x, y: Math.max(0, y - speed) };
+            case "DOWN":
+              return { x, y: Math.min(screenWidth - blockWidth, y + speed) };
           }
-          case "RIGHT": {
-            const newPosition = {
-              x: Math.min(screenWidth - blockWidth, x + speed),
-              y,
-            };
-            if (
-              levelMapWalls.some((space) => isOverlapping(newPosition, space))
-            ) {
-              return { x, y };
-            }
-            return newPosition;
-          }
-          case "UP": {
-            const newPosition = {
-              x,
-              y: Math.max(0, y - speed),
-            };
-            if (
-              levelMapWalls.some((space) => isOverlapping(newPosition, space))
-            ) {
-              return { x, y };
-            }
-            return newPosition;
-          }
-          case "DOWN": {
-            const newPosition = {
-              x,
-              y: Math.min(screenWidth - blockWidth, y + speed),
-            };
-            if (
-              levelMapWalls.some((space) => isOverlapping(newPosition, space))
-            ) {
-              return { x, y };
-            }
-            return newPosition;
-          }
+        })();
+        if (levelMapWalls.some((wall) => isOverlapping(newPosition, wall))) {
+          return { x, y };
         }
+        return newPosition;
       });
 
       requestAnimationFrame(update);
