@@ -6,9 +6,10 @@ import {
 } from "react";
 import { isOverlapping } from "~/utils/is-overlapping";
 import { blockWidth, speed, screenWidth } from "~/utils/constants";
-import { levelMapWalls } from "~/utils/level-map";
+import { getRandomSpace, levelMapWalls } from "~/utils/level-map";
 import { type Direction, type Position } from "~/utils/types";
 import { type KanjiMonster } from "~/utils/kanji";
+import { findShortestPath } from "./shortest-path";
 
 export function useUpdate({
   direction,
@@ -48,6 +49,34 @@ export function useUpdate({
           }
           return newPosition;
         })();
+
+        setKanjiMonsters((kanjiMonsters) => {
+          return kanjiMonsters.map((kanjiMonster) => {
+            if (!kanjiMonster.path[0]) {
+              return {
+                ...kanjiMonster,
+                path: findShortestPath(kanjiMonster.position, getRandomSpace()),
+              };
+            }
+            const nextStep = kanjiMonster.path[0];
+            if (
+              nextStep.x === kanjiMonster.position.x &&
+              nextStep.y === kanjiMonster.position.y
+            ) {
+              return {
+                ...kanjiMonster,
+                path: kanjiMonster.path.slice(1),
+              };
+            }
+            const dx = clamp(-1, nextStep.x - kanjiMonster.position.x, 1);
+            const dy = clamp(-1, nextStep.y - kanjiMonster.position.y, 1);
+            const { x, y } = kanjiMonster.position;
+            return {
+              ...kanjiMonster,
+              position: { x: x + dx, y: y + dy },
+            };
+          });
+        });
 
         return newPosition;
       });
@@ -119,4 +148,8 @@ function updateDirection({
     return "DOWN";
   }
   return direction;
+}
+
+function clamp(lower: number, x: number, upper: number): number {
+  return Math.min(upper, Math.max(lower, x));
 }
