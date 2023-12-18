@@ -8,17 +8,20 @@ import { isOverlapping } from "~/utils/is-overlapping";
 import { blockWidth, speed, screenWidth } from "~/utils/constants";
 import { levelMapWalls } from "~/utils/level-map";
 import { type Direction, type Position } from "~/utils/types";
+import { type KanjiMonster } from "~/utils/kanji";
 
 export function useUpdate({
   direction,
   setDirection,
   setPosition,
   keysDown,
+  setKanjiMonsters,
 }: {
   direction: Direction;
   setDirection: Dispatch<SetStateAction<Direction>>;
   setPosition: Dispatch<SetStateAction<Position>>;
   keysDown: MutableRefObject<Set<string>>;
+  setKanjiMonsters: Dispatch<SetStateAction<KanjiMonster[]>>;
 }) {
   useEffect(() => {
     let isActive = true;

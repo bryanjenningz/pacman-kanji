@@ -18,7 +18,13 @@ export function Game() {
   const kanjiValue = kanjiValues[kanjiIndex];
   const [kanjiMonsters, setKanjiMonsters] = useState(initialKanjiMonsters);
 
-  useUpdate({ direction, setDirection, setPosition, keysDown });
+  useUpdate({
+    direction,
+    setDirection,
+    setPosition,
+    keysDown,
+    setKanjiMonsters,
+  });
 
   useKeys({ keysDown });
 
