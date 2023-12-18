@@ -29,20 +29,20 @@ export function useUpdate({
     (function update() {
       if (!isActive) return;
 
-      setPosition(({ x, y }) => {
+      setPosition((position) => {
         const newDirection = updateDirection({
           keysDown,
-          position: { x, y },
+          position,
           direction,
         });
         setDirection(newDirection);
 
         const newPosition = updatePosition({
-          position: { x, y },
+          position,
           direction: newDirection,
         });
         if (levelMapWalls.some((wall) => isOverlapping(newPosition, wall))) {
-          return { x, y };
+          return position;
         }
         return newPosition;
       });
@@ -77,7 +77,7 @@ function updatePosition({
 
 function updateDirection({
   keysDown,
-  position: { x, y },
+  position,
   direction,
 }: {
   keysDown: MutableRefObject<Set<string>>;
@@ -87,40 +87,28 @@ function updateDirection({
   if (
     keysDown.current.has("ArrowLeft") &&
     !levelMapWalls.some((wall) =>
-      isOverlapping(
-        wall,
-        updatePosition({ position: { x, y }, direction: "LEFT" }),
-      ),
+      isOverlapping(wall, updatePosition({ position, direction: "LEFT" })),
     )
   ) {
     return "LEFT";
   } else if (
     keysDown.current.has("ArrowRight") &&
     !levelMapWalls.some((wall) =>
-      isOverlapping(
-        wall,
-        updatePosition({ position: { x, y }, direction: "RIGHT" }),
-      ),
+      isOverlapping(wall, updatePosition({ position, direction: "RIGHT" })),
     )
   ) {
     return "RIGHT";
   } else if (
     keysDown.current.has("ArrowUp") &&
     !levelMapWalls.some((wall) =>
-      isOverlapping(
-        wall,
-        updatePosition({ position: { x, y }, direction: "UP" }),
-      ),
+      isOverlapping(wall, updatePosition({ position, direction: "UP" })),
     )
   ) {
     return "UP";
   } else if (
     keysDown.current.has("ArrowDown") &&
     !levelMapWalls.some((wall) =>
-      isOverlapping(
-        wall,
-        updatePosition({ position: { x, y }, direction: "DOWN" }),
-      ),
+      isOverlapping(wall, updatePosition({ position, direction: "DOWN" })),
     )
   ) {
     return "DOWN";
