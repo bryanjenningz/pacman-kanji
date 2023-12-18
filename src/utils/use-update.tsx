@@ -37,13 +37,18 @@ export function useUpdate({
         });
         setDirection(newDirection);
 
-        const newPosition = updatePosition({
-          position,
-          direction: newDirection,
-        });
-        if (levelMapWalls.some((wall) => isOverlapping(newPosition, wall))) {
-          return position;
-        }
+        const newPosition = ((): Position => {
+          const newPosition = updatePosition({
+            position,
+            direction: newDirection,
+          });
+
+          if (levelMapWalls.some((wall) => isOverlapping(newPosition, wall))) {
+            return position;
+          }
+          return newPosition;
+        })();
+
         return newPosition;
       });
 
