@@ -30,52 +30,17 @@ export function useUpdate({
       if (!isActive) return;
 
       setPosition(({ x, y }) => {
-        setDirection((direction) => {
-          if (
-            keysDown.current.has("ArrowLeft") &&
-            !levelMapWalls.some((wall) =>
-              isOverlapping(
-                wall,
-                updatePosition({ position: { x, y }, direction: "LEFT" }),
-              ),
-            )
-          ) {
-            return "LEFT";
-          } else if (
-            keysDown.current.has("ArrowRight") &&
-            !levelMapWalls.some((wall) =>
-              isOverlapping(
-                wall,
-                updatePosition({ position: { x, y }, direction: "RIGHT" }),
-              ),
-            )
-          ) {
-            return "RIGHT";
-          } else if (
-            keysDown.current.has("ArrowUp") &&
-            !levelMapWalls.some((wall) =>
-              isOverlapping(
-                wall,
-                updatePosition({ position: { x, y }, direction: "UP" }),
-              ),
-            )
-          ) {
-            return "UP";
-          } else if (
-            keysDown.current.has("ArrowDown") &&
-            !levelMapWalls.some((wall) =>
-              isOverlapping(
-                wall,
-                updatePosition({ position: { x, y }, direction: "DOWN" }),
-              ),
-            )
-          ) {
-            return "DOWN";
-          }
-          return direction;
+        const newDirection = updateDirection({
+          keysDown,
+          position: { x, y },
+          direction,
         });
+        setDirection(newDirection);
 
-        const newPosition = updatePosition({ position: { x, y }, direction });
+        const newPosition = updatePosition({
+          position: { x, y },
+          direction: newDirection,
+        });
         if (levelMapWalls.some((wall) => isOverlapping(newPosition, wall))) {
           return { x, y };
         }
@@ -108,4 +73,57 @@ function updatePosition({
     case "DOWN":
       return { x, y: Math.min(screenWidth - blockWidth, y + speed) };
   }
+}
+
+function updateDirection({
+  keysDown,
+  position: { x, y },
+  direction,
+}: {
+  keysDown: MutableRefObject<Set<string>>;
+  position: Position;
+  direction: Direction;
+}) {
+  if (
+    keysDown.current.has("ArrowLeft") &&
+    !levelMapWalls.some((wall) =>
+      isOverlapping(
+        wall,
+        updatePosition({ position: { x, y }, direction: "LEFT" }),
+      ),
+    )
+  ) {
+    return "LEFT";
+  } else if (
+    keysDown.current.has("ArrowRight") &&
+    !levelMapWalls.some((wall) =>
+      isOverlapping(
+        wall,
+        updatePosition({ position: { x, y }, direction: "RIGHT" }),
+      ),
+    )
+  ) {
+    return "RIGHT";
+  } else if (
+    keysDown.current.has("ArrowUp") &&
+    !levelMapWalls.some((wall) =>
+      isOverlapping(
+        wall,
+        updatePosition({ position: { x, y }, direction: "UP" }),
+      ),
+    )
+  ) {
+    return "UP";
+  } else if (
+    keysDown.current.has("ArrowDown") &&
+    !levelMapWalls.some((wall) =>
+      isOverlapping(
+        wall,
+        updatePosition({ position: { x, y }, direction: "DOWN" }),
+      ),
+    )
+  ) {
+    return "DOWN";
+  }
+  return direction;
 }
