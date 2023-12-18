@@ -29,15 +29,18 @@ export function useUpdate({
     (function update() {
       if (!isActive) return;
 
-      if (keysDown.current.has("ArrowLeft")) {
-        setDirection("LEFT");
-      } else if (keysDown.current.has("ArrowRight")) {
-        setDirection("RIGHT");
-      } else if (keysDown.current.has("ArrowUp")) {
-        setDirection("UP");
-      } else if (keysDown.current.has("ArrowDown")) {
-        setDirection("DOWN");
-      }
+      setDirection((direction) => {
+        if (keysDown.current.has("ArrowLeft")) {
+          return "LEFT";
+        } else if (keysDown.current.has("ArrowRight")) {
+          return "RIGHT";
+        } else if (keysDown.current.has("ArrowUp")) {
+          return "UP";
+        } else if (keysDown.current.has("ArrowDown")) {
+          return "DOWN";
+        }
+        return direction;
+      });
 
       setPosition(({ x, y }) => {
         switch (direction) {
