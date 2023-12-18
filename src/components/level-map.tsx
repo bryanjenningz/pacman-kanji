@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { blockWidth, screenWidth } from "../utils/constants";
 import { levelMap, levelMapWall } from "../utils/level-map";
 
-export function LevelMap() {
+export const LevelMap = memo(() => {
   return (
     <div
       className="absolute"
@@ -30,4 +31,4 @@ export function LevelMap() {
       })}
     </div>
   );
-}
+});
