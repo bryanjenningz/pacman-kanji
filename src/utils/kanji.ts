@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { blockWidth } from "~/utils/constants";
 import { type Position } from "~/utils/types";
 import { isOverlapping } from "./is-overlapping";
@@ -44,6 +44,17 @@ const initialKanjiMonsters: KanjiMonster[] = [
 
 export function useKanjiMonsters() {
   const [kanjiMonsters, setKanjiMonsters] = useState(initialKanjiMonsters);
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch("/heisig-kanji.txt");
+      const text = await response.text();
+      text.split("\n").forEach((line, i) => {
+        const [kanji, meaning] = line.split("\t");
+        kanjiValues[i] = { kanji: kanji!, meaning: meaning! };
+      });
+    })();
+  }, []);
 
   const target = useMemo(
     () => getTargetKanjiMonster(kanjiMonsters).kanjiValue,
