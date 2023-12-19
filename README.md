@@ -2,6 +2,10 @@
 
 Learn Japanese kanji by playing Pacman!
 
+## Screenshots
+
+<img width="350" src="./screenshot.png" alt="">
+
 ## Credits
 
 - [Pac-Man](https://en.wikipedia.org/wiki/Pac-Man) for design inspiration
