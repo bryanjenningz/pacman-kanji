@@ -8,8 +8,12 @@ import { isOverlapping } from "~/utils/is-overlapping";
 import { blockWidth, speed, screenWidth } from "~/utils/constants";
 import { getRandomSpace, levelMapWalls } from "~/utils/level-map";
 import { type Direction, type Position } from "~/utils/types";
-import { type KanjiMonster } from "~/utils/kanji";
-import { findShortestPath } from "./shortest-path";
+import {
+  updateKanjiMonster,
+  type KanjiMonster,
+  getCurrentKanjiMonster,
+} from "~/utils/kanji";
+import { findShortestPath } from "~/utils/shortest-path";
 
 export function useUpdate({
   direction,
@@ -51,7 +55,15 @@ export function useUpdate({
         })();
 
         setKanjiMonsters((kanjiMonsters) => {
+          const currentKanji =
+            getCurrentKanjiMonster(kanjiMonsters).kanjiValue.kanji;
           return kanjiMonsters.map((kanjiMonster) => {
+            if (
+              kanjiMonster.kanjiValue.kanji === currentKanji &&
+              isOverlapping(kanjiMonster.position, newPosition)
+            ) {
+              return updateKanjiMonster(kanjiMonster);
+            }
             if (!kanjiMonster.path[0]) {
               return {
                 ...kanjiMonster,
