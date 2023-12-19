@@ -1,7 +1,7 @@
 import { blockWidth } from "~/utils/constants";
 import { type Position } from "~/utils/types";
 
-export type KanjiValue = {
+type KanjiValue = {
   kanji: string;
   meaning: string;
 };
@@ -13,7 +13,7 @@ export type KanjiMonster = {
   path: Position[];
 };
 
-export const kanjiValues: KanjiValue[] = [
+const kanjiValues: KanjiValue[] = [
   { kanji: "一", meaning: "one" },
   { kanji: "二", meaning: "two" },
   { kanji: "三", meaning: "three" },
