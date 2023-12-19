@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { blockWidth } from "~/utils/constants";
 import { type Position } from "~/utils/types";
-import { isOverlapping } from "./is-overlapping";
-import { getRandomSpace } from "./level-map";
-import { findShortestPath } from "./shortest-path";
+import { isOverlapping } from "~/utils/is-overlapping";
+import { getRandomSpace } from "~/utils/level-map";
+import { findShortestPath } from "~/utils/shortest-path";
 
 type KanjiValue = {
   kanji: string;

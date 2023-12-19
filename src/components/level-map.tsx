@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { blockWidth, screenWidth } from "../utils/constants";
-import { levelMap, levelMapWall } from "../utils/level-map";
+import { blockWidth, screenWidth } from "~/utils/constants";
+import { levelMap, levelMapWall } from "~/utils/level-map";
 
 export const LevelMap = memo(() => {
   return (
