@@ -104,16 +104,13 @@ function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
   const newKanjiValue = kanjiValues[newKanjiIndex]!;
   return {
     ...kanjiMonster,
+    id: kanjiMonster.id + initialKanjiMonsters.length,
     kanjiValue: newKanjiValue,
   };
 }
 
 function getTargetKanjiMonster(kanjiMonsters: KanjiMonster[]): KanjiMonster {
-  return kanjiMonsters.sort(
-    (a, b) =>
-      kanjiValues.findIndex((x) => x.kanji === a.kanjiValue.kanji) -
-      kanjiValues.findIndex((x) => x.kanji === b.kanjiValue.kanji),
-  )[0]!;
+  return kanjiMonsters.sort((a, b) => a.id - b.id)[0]!;
 }
 
 function clamp(lower: number, x: number, upper: number): number {
