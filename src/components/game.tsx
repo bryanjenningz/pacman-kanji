@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { screenWidth } from "~/utils/constants";
-import { useKanjiMonsters } from "~/utils/kanji";
+import { useKanjiMonsters } from "~/utils/kanji-monsters";
 import { LevelMap } from "~/components/level-map";
 import { useUpdateLoop } from "~/utils/update-loop";
 import { useKeys } from "~/utils/use-keys";

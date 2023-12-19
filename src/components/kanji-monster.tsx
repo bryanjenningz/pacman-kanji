@@ -1,5 +1,5 @@
 import { blockWidth } from "~/utils/constants";
-import { type KanjiMonster } from "~/utils/kanji";
+import { type KanjiMonster } from "~/utils/kanji-monsters";
 
 export function KanjiMonster({ kanjiMonster }: { kanjiMonster: KanjiMonster }) {
   return (
