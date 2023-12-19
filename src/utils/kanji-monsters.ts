@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { blockWidth } from "~/utils/constants";
 import { type Position } from "~/utils/types";
-import { isOverlapping } from "~/utils/is-overlapping";
+import { isOverlapping } from "~/utils/collisions";
 import { getRandomSpace } from "~/utils/level-map";
 import { findShortestPath } from "~/utils/shortest-path";
 

@@ -4,7 +4,7 @@ import {
   type SetStateAction,
   useEffect,
 } from "react";
-import { isOverlapping } from "~/utils/is-overlapping";
+import { isOverlapping } from "~/utils/collisions";
 import { blockWidth, speed, screenWidth } from "~/utils/constants";
 import { levelMapWalls } from "~/utils/level-map";
 import { type Direction, type Position } from "~/utils/types";
