@@ -29,7 +29,9 @@ export function Game() {
           <Player position={position} />
 
           {kanjiMonsters.map((kanjiMonster) => {
-            return <KanjiMonster kanjiMonster={kanjiMonster} />;
+            return (
+              <KanjiMonster key={kanjiMonster.id} kanjiMonster={kanjiMonster} />
+            );
           })}
         </div>
       </div>
