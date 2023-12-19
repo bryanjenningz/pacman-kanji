@@ -62,14 +62,14 @@ export function useKanjiMonsters() {
           return updateKanjiMonster(kanjiMonster);
         }
 
-        if (!kanjiMonster.path[0]) {
+        const nextStep = kanjiMonster.path[0];
+        if (!nextStep) {
           return {
             ...kanjiMonster,
             path: findShortestPath(kanjiMonster.position, getRandomSpace()),
           };
         }
 
-        const nextStep = kanjiMonster.path[0];
         if (
           nextStep.x === kanjiMonster.position.x &&
           nextStep.y === kanjiMonster.position.y
