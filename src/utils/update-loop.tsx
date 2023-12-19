@@ -8,20 +8,21 @@ import { isOverlapping } from "~/utils/collisions";
 import { blockWidth, speed, screenWidth } from "~/utils/constants";
 import { levelMapWalls } from "~/utils/level-map";
 import { type Direction, type Position } from "~/utils/types";
+import { useKeyboard } from "./keyboard";
 
 export function useUpdateLoop({
   direction,
   setDirection,
   setPosition,
-  keysDown,
   updateKanjiMonsters,
 }: {
   direction: Direction;
   setDirection: Dispatch<SetStateAction<Direction>>;
   setPosition: Dispatch<SetStateAction<Position>>;
-  keysDown: MutableRefObject<Set<string>>;
   updateKanjiMonsters: (position: Position) => void;
 }) {
+  const { keysDown } = useKeyboard();
+
   useEffect(() => {
     let isActive = true;
 
