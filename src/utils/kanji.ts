@@ -27,31 +27,16 @@ const kanjiValues: KanjiValue[] = [
 ];
 
 export const initialKanjiMonsters: KanjiMonster[] = [
-  {
-    id: 0,
-    kanjiValue: kanjiValues[0]!,
-    position: { x: blockWidth * 5, y: blockWidth * 3 },
-    path: [],
-  },
-  {
-    id: 1,
-    kanjiValue: kanjiValues[1]!,
-    position: { x: blockWidth * 9, y: blockWidth * 3 },
-    path: [],
-  },
-  {
-    id: 2,
-    kanjiValue: kanjiValues[2]!,
-    position: { x: blockWidth * 5, y: blockWidth * 7 },
-    path: [],
-  },
-  {
-    id: 3,
-    kanjiValue: kanjiValues[3]!,
-    position: { x: blockWidth * 9, y: blockWidth * 7 },
-    path: [],
-  },
-];
+  { x: blockWidth * 5, y: blockWidth * 3 },
+  { x: blockWidth * 9, y: blockWidth * 3 },
+  { x: blockWidth * 5, y: blockWidth * 7 },
+  { x: blockWidth * 9, y: blockWidth * 7 },
+].map((position, i) => ({
+  id: i,
+  kanjiValue: kanjiValues[i]!,
+  position,
+  path: [],
+}));
 
 export function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
   const kanjiIndex = kanjiValues.findIndex(
