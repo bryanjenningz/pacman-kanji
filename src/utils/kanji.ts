@@ -46,18 +46,17 @@ export function useKanjiMonsters() {
   const [kanjiMonsters, setKanjiMonsters] = useState(initialKanjiMonsters);
 
   const target = useMemo(
-    () => getCurrentKanjiMonster(kanjiMonsters).kanjiValue,
+    () => getTargetKanjiMonster(kanjiMonsters).kanjiValue,
     [kanjiMonsters],
   );
 
   const updateKanjiMonsters = useCallback((newPosition: Position) => {
     setKanjiMonsters((kanjiMonsters) => {
-      const currentKanji =
-        getCurrentKanjiMonster(kanjiMonsters).kanjiValue.kanji;
+      const targetKanji = getTargetKanjiMonster(kanjiMonsters).kanjiValue.kanji;
 
       return kanjiMonsters.map((kanjiMonster) => {
         if (
-          kanjiMonster.kanjiValue.kanji === currentKanji &&
+          kanjiMonster.kanjiValue.kanji === targetKanji &&
           isOverlapping(kanjiMonster.position, newPosition)
         ) {
           return updateKanjiMonster(kanjiMonster);
@@ -109,7 +108,7 @@ function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
   };
 }
 
-function getCurrentKanjiMonster(kanjiMonsters: KanjiMonster[]): KanjiMonster {
+function getTargetKanjiMonster(kanjiMonsters: KanjiMonster[]): KanjiMonster {
   return kanjiMonsters.sort(
     (a, b) =>
       kanjiValues.findIndex((x) => x.kanji === a.kanjiValue.kanji) -
