@@ -3,7 +3,7 @@ import { screenWidth } from "~/utils/constants";
 import { useKanjiMonsters } from "~/utils/kanji-monsters";
 import { LevelMap } from "~/components/level-map";
 import { useUpdateLoop } from "~/utils/update-loop";
-import { useKeys } from "~/utils/use-keys";
+import { useKeyboard } from "~/utils/keyboard";
 import { Player } from "~/components/player";
 import { usePlayer } from "~/utils/player";
 import { KanjiMonster } from "~/components/kanji-monster";
@@ -21,7 +21,7 @@ export function Game() {
     updateKanjiMonsters,
   });
 
-  useKeys({ keysDown });
+  useKeyboard({ keysDown });
 
   return (
     <div className="flex flex-col items-center gap-2">

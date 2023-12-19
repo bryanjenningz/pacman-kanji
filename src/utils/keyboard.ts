@@ -1,6 +1,6 @@
 import { type MutableRefObject, useEffect } from "react";
 
-export function useKeys({
+export function useKeyboard({
   keysDown,
 }: {
   keysDown: MutableRefObject<Set<string>>;
