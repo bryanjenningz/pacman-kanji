@@ -14,7 +14,7 @@ export function Game() {
   const [{ x, y }, setPosition] = useState(initialPosition);
   const [direction, setDirection] = useState(initialDirection);
   const keysDown = useRef(new Set<string>());
-  const [kanjiMonsters, setKanjiMonsters] = useKanjiMonsters();
+  const { kanjiMonsters, updateKanjiMonsters } = useKanjiMonsters();
   const currentKanjiMonster = getCurrentKanjiMonster(kanjiMonsters);
 
   useUpdate({
@@ -22,7 +22,7 @@ export function Game() {
     setDirection,
     setPosition,
     keysDown,
-    setKanjiMonsters,
+    updateKanjiMonsters,
   });
 
   useKeys({ keysDown });

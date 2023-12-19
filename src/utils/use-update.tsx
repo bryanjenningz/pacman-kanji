@@ -6,27 +6,21 @@ import {
 } from "react";
 import { isOverlapping } from "~/utils/is-overlapping";
 import { blockWidth, speed, screenWidth } from "~/utils/constants";
-import { getRandomSpace, levelMapWalls } from "~/utils/level-map";
+import { levelMapWalls } from "~/utils/level-map";
 import { type Direction, type Position } from "~/utils/types";
-import {
-  updateKanjiMonster,
-  type KanjiMonster,
-  getCurrentKanjiMonster,
-} from "~/utils/kanji";
-import { findShortestPath } from "~/utils/shortest-path";
 
 export function useUpdate({
   direction,
   setDirection,
   setPosition,
   keysDown,
-  setKanjiMonsters,
+  updateKanjiMonsters,
 }: {
   direction: Direction;
   setDirection: Dispatch<SetStateAction<Direction>>;
   setPosition: Dispatch<SetStateAction<Position>>;
   keysDown: MutableRefObject<Set<string>>;
-  setKanjiMonsters: Dispatch<SetStateAction<KanjiMonster[]>>;
+  updateKanjiMonsters: (position: Position) => void;
 }) {
   useEffect(() => {
     let isActive = true;
@@ -54,41 +48,7 @@ export function useUpdate({
           return newPosition;
         })();
 
-        setKanjiMonsters((kanjiMonsters) => {
-          const currentKanji =
-            getCurrentKanjiMonster(kanjiMonsters).kanjiValue.kanji;
-          return kanjiMonsters.map((kanjiMonster) => {
-            if (
-              kanjiMonster.kanjiValue.kanji === currentKanji &&
-              isOverlapping(kanjiMonster.position, newPosition)
-            ) {
-              return updateKanjiMonster(kanjiMonster);
-            }
-            if (!kanjiMonster.path[0]) {
-              return {
-                ...kanjiMonster,
-                path: findShortestPath(kanjiMonster.position, getRandomSpace()),
-              };
-            }
-            const nextStep = kanjiMonster.path[0];
-            if (
-              nextStep.x === kanjiMonster.position.x &&
-              nextStep.y === kanjiMonster.position.y
-            ) {
-              return {
-                ...kanjiMonster,
-                path: kanjiMonster.path.slice(1),
-              };
-            }
-            const dx = clamp(-1, nextStep.x - kanjiMonster.position.x, 1);
-            const dy = clamp(-1, nextStep.y - kanjiMonster.position.y, 1);
-            const { x, y } = kanjiMonster.position;
-            return {
-              ...kanjiMonster,
-              position: { x: x + dx, y: y + dy },
-            };
-          });
-        });
+        updateKanjiMonsters(newPosition);
 
         return newPosition;
       });
@@ -160,8 +120,4 @@ function updateDirection({
     return "DOWN";
   }
   return direction;
-}
-
-function clamp(lower: number, x: number, upper: number): number {
-  return Math.min(upper, Math.max(lower, x));
 }

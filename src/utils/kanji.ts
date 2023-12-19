@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { blockWidth } from "~/utils/constants";
 import { type Position } from "~/utils/types";
+import { isOverlapping } from "./is-overlapping";
+import { getRandomSpace } from "./level-map";
+import { findShortestPath } from "./shortest-path";
 
 type KanjiValue = {
   kanji: string;
@@ -40,7 +43,52 @@ const initialKanjiMonsters: KanjiMonster[] = [
 }));
 
 export function useKanjiMonsters() {
-  return useState(initialKanjiMonsters);
+  const [kanjiMonsters, setKanjiMonsters] = useState(initialKanjiMonsters);
+
+  const updateKanjiMonsters = useCallback((newPosition: Position) => {
+    setKanjiMonsters((kanjiMonsters) => {
+      const currentKanji =
+        getCurrentKanjiMonster(kanjiMonsters).kanjiValue.kanji;
+
+      return kanjiMonsters.map((kanjiMonster) => {
+        if (
+          kanjiMonster.kanjiValue.kanji === currentKanji &&
+          isOverlapping(kanjiMonster.position, newPosition)
+        ) {
+          return updateKanjiMonster(kanjiMonster);
+        }
+
+        if (!kanjiMonster.path[0]) {
+          return {
+            ...kanjiMonster,
+            path: findShortestPath(kanjiMonster.position, getRandomSpace()),
+          };
+        }
+
+        const nextStep = kanjiMonster.path[0];
+        if (
+          nextStep.x === kanjiMonster.position.x &&
+          nextStep.y === kanjiMonster.position.y
+        ) {
+          return {
+            ...kanjiMonster,
+            path: kanjiMonster.path.slice(1),
+          };
+        }
+
+        const dx = clamp(-1, nextStep.x - kanjiMonster.position.x, 1);
+        const dy = clamp(-1, nextStep.y - kanjiMonster.position.y, 1);
+        const { x, y } = kanjiMonster.position;
+
+        return {
+          ...kanjiMonster,
+          position: { x: x + dx, y: y + dy },
+        };
+      });
+    });
+  }, []);
+
+  return { kanjiMonsters, updateKanjiMonsters };
 }
 
 export function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
@@ -64,4 +112,8 @@ export function getCurrentKanjiMonster(
       kanjiValues.findIndex((x) => x.kanji === a.kanjiValue.kanji) -
       kanjiValues.findIndex((x) => x.kanji === b.kanjiValue.kanji),
   )[0]!;
+}
+
+function clamp(lower: number, x: number, upper: number): number {
+  return Math.min(upper, Math.max(lower, x));
 }
