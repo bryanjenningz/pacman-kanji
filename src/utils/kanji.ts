@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { blockWidth } from "~/utils/constants";
 import { type Position } from "~/utils/types";
 import { isOverlapping } from "./is-overlapping";
@@ -45,6 +45,11 @@ const initialKanjiMonsters: KanjiMonster[] = [
 export function useKanjiMonsters() {
   const [kanjiMonsters, setKanjiMonsters] = useState(initialKanjiMonsters);
 
+  const target = useMemo(
+    () => getCurrentKanjiMonster(kanjiMonsters).kanjiValue,
+    [kanjiMonsters],
+  );
+
   const updateKanjiMonsters = useCallback((newPosition: Position) => {
     setKanjiMonsters((kanjiMonsters) => {
       const currentKanji =
@@ -88,10 +93,10 @@ export function useKanjiMonsters() {
     });
   }, []);
 
-  return { kanjiMonsters, updateKanjiMonsters };
+  return { kanjiMonsters, target, updateKanjiMonsters };
 }
 
-export function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
+function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
   const kanjiIndex = kanjiValues.findIndex(
     (x) => x.kanji === kanjiMonster.kanjiValue.kanji,
   );
@@ -104,9 +109,7 @@ export function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
   };
 }
 
-export function getCurrentKanjiMonster(
-  kanjiMonsters: KanjiMonster[],
-): KanjiMonster {
+function getCurrentKanjiMonster(kanjiMonsters: KanjiMonster[]): KanjiMonster {
   return kanjiMonsters.sort(
     (a, b) =>
       kanjiValues.findIndex((x) => x.kanji === a.kanjiValue.kanji) -
