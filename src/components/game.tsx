@@ -10,8 +10,8 @@ import { KanjiMonster } from "~/components/kanji-monster";
 
 export function Game() {
   const { position, setPosition, direction, setDirection } = usePlayer();
-  const keysDown = useRef(new Set<string>());
   const { kanjiMonsters, target, updateKanjiMonsters } = useKanjiMonsters();
+  const { keysDown } = useKeyboard();
 
   useUpdateLoop({
     direction,
@@ -20,8 +20,6 @@ export function Game() {
     keysDown,
     updateKanjiMonsters,
   });
-
-  useKeyboard({ keysDown });
 
   return (
     <div className="flex flex-col items-center gap-2">

@@ -1,10 +1,8 @@
-import { type MutableRefObject, useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export function useKeyboard({
-  keysDown,
-}: {
-  keysDown: MutableRefObject<Set<string>>;
-}) {
+export function useKeyboard() {
+  const keysDown = useRef(new Set<string>());
+
   useEffect(() => {
     function addKey(event: KeyboardEvent) {
       keysDown.current.add(event.key);
@@ -21,4 +19,6 @@ export function useKeyboard({
       document.removeEventListener("keyup", deleteKey);
     };
   }, []);
+
+  return { keysDown };
 }
