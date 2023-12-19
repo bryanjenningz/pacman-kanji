@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { blockWidth } from "~/utils/constants";
 import { type Position } from "~/utils/types";
 
@@ -26,7 +27,7 @@ const kanjiValues: KanjiValue[] = [
   { kanji: "十", meaning: "ten" },
 ];
 
-export const initialKanjiMonsters: KanjiMonster[] = [
+const initialKanjiMonsters: KanjiMonster[] = [
   { x: blockWidth * 5, y: blockWidth * 3 },
   { x: blockWidth * 9, y: blockWidth * 3 },
   { x: blockWidth * 5, y: blockWidth * 7 },
@@ -37,6 +38,10 @@ export const initialKanjiMonsters: KanjiMonster[] = [
   position,
   path: [],
 }));
+
+export function useKanjiMonsters() {
+  return useState(initialKanjiMonsters);
+}
 
 export function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
   const kanjiIndex = kanjiValues.findIndex(
