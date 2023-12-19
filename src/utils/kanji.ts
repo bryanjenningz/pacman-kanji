@@ -50,14 +50,14 @@ export function useKanjiMonsters() {
     [kanjiMonsters],
   );
 
-  const updateKanjiMonsters = useCallback((newPosition: Position) => {
+  const updateKanjiMonsters = useCallback((playerPosition: Position) => {
     setKanjiMonsters((kanjiMonsters) => {
       const targetKanji = getTargetKanjiMonster(kanjiMonsters).kanjiValue.kanji;
 
       return kanjiMonsters.map((kanjiMonster) => {
         if (
           kanjiMonster.kanjiValue.kanji === targetKanji &&
-          isOverlapping(kanjiMonster.position, newPosition)
+          isOverlapping(kanjiMonster.position, playerPosition)
         ) {
           return updateKanjiMonster(kanjiMonster);
         }
