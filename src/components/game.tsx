@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { screenWidth } from "~/utils/constants";
 import { useKanjiMonsters } from "~/utils/kanji";
 import { LevelMap } from "~/components/level-map";
-import { useUpdate } from "~/utils/use-update";
+import { useUpdateLoop } from "~/utils/update-loop";
 import { useKeys } from "~/utils/use-keys";
 import { Player } from "~/components/player";
 import { usePlayer } from "~/utils/player";
@@ -13,7 +13,7 @@ export function Game() {
   const keysDown = useRef(new Set<string>());
   const { kanjiMonsters, target, updateKanjiMonsters } = useKanjiMonsters();
 
-  useUpdate({
+  useUpdateLoop({
     direction,
     setDirection,
     setPosition,

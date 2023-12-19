@@ -9,7 +9,7 @@ import { blockWidth, speed, screenWidth } from "~/utils/constants";
 import { levelMapWalls } from "~/utils/level-map";
 import { type Direction, type Position } from "~/utils/types";
 
-export function useUpdate({
+export function useUpdateLoop({
   direction,
   setDirection,
   setPosition,
@@ -25,7 +25,7 @@ export function useUpdate({
   useEffect(() => {
     let isActive = true;
 
-    (function update() {
+    (function updateLoop() {
       if (!isActive) return;
 
       setPosition((position) => {
@@ -53,7 +53,7 @@ export function useUpdate({
         return newPosition;
       });
 
-      requestAnimationFrame(update);
+      requestAnimationFrame(updateLoop);
     })();
 
     return () => {
