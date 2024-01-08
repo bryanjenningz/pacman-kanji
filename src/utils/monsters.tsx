@@ -112,18 +112,25 @@ function clamp(lower: number, x: number, upper: number): number {
 
 const speed = 1;
 
-export function View({ monster }: { monster: Monster }) {
+export function View({ monsters }: { monsters: Monster[] }): JSX.Element {
   return (
-    <div
-      className="absolute z-10 flex items-center justify-center bg-black text-white"
-      style={{
-        width: blockWidth,
-        height: blockWidth,
-        left: monster.position.x,
-        top: monster.position.y,
-      }}
-    >
-      {monster.kanji.character}
-    </div>
+    <>
+      {monsters.map((monster) => {
+        return (
+          <div
+            key={monster.id}
+            className="absolute z-10 flex items-center justify-center bg-black text-white"
+            style={{
+              width: blockWidth,
+              height: blockWidth,
+              left: monster.position.x,
+              top: monster.position.y,
+            }}
+          >
+            {monster.kanji.character}
+          </div>
+        );
+      })}
+    </>
   );
 }

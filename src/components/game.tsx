@@ -27,9 +27,7 @@ export function Game() {
         >
           <Player position={position} />
 
-          {monsters.map((monster) => {
-            return <Monsters.View key={monster.id} monster={monster} />;
-          })}
+          <Monsters.View monsters={monsters} />
         </div>
       </div>
 
