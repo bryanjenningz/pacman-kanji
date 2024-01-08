@@ -30,7 +30,7 @@ const initMonsters: Monster[] = (
 );
 
 export function use() {
-  const [kanjiMonsters, setKanjiMonsters] = useState(initMonsters);
+  const [monsters, setMonsters] = useState(initMonsters);
 
   useEffect(() => {
     void (async () => {
@@ -43,12 +43,12 @@ export function use() {
   }, []);
 
   const target = useMemo(
-    () => getTargetKanjiMonster(kanjiMonsters).kanji,
-    [kanjiMonsters],
+    () => getTargetKanjiMonster(monsters).kanji,
+    [monsters],
   );
 
   const updateKanjiMonsters = useCallback((playerPosition: Position) => {
-    setKanjiMonsters((kanjiMonsters) => {
+    setMonsters((kanjiMonsters) => {
       const targetKanji = getTargetKanjiMonster(kanjiMonsters).kanji.character;
 
       return kanjiMonsters.map((kanjiMonster) => {
@@ -89,7 +89,7 @@ export function use() {
     });
   }, []);
 
-  return { kanjiMonsters, target, updateKanjiMonsters };
+  return { monsters, target, updateKanjiMonsters };
 }
 
 function updateKanjiMonster(kanjiMonster: Monster): Monster {

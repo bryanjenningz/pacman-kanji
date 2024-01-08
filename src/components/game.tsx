@@ -7,7 +7,7 @@ import { usePlayer } from "~/utils/player";
 
 export function Game() {
   const { position, setPosition, direction, setDirection } = usePlayer();
-  const { kanjiMonsters, target, updateKanjiMonsters } = Monsters.use();
+  const { monsters, target, updateKanjiMonsters } = Monsters.use();
 
   useUpdateLoop({
     direction,
@@ -27,7 +27,7 @@ export function Game() {
         >
           <Player position={position} />
 
-          {kanjiMonsters.map((kanjiMonster) => {
+          {monsters.map((kanjiMonster) => {
             return (
               <Monsters.View key={kanjiMonster.id} monster={kanjiMonster} />
             );
