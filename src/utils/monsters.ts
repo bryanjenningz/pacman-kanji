@@ -8,7 +8,7 @@ import { initKanji, type Kanji } from "~/utils/kanji";
 
 export type Monster = {
   id: number;
-  kanjiValue: Kanji;
+  kanji: Kanji;
   position: Position;
   path: Position[];
 };
@@ -20,12 +20,14 @@ const initMonsters: Monster[] = (
     { x: blockWidth * 5, y: blockWidth * 7 },
     { x: blockWidth * 9, y: blockWidth * 7 },
   ] as const
-).map((position, i) => ({
-  id: i,
-  kanjiValue: initKanji[i] ?? initKanji[0],
-  position,
-  path: [],
-}));
+).map(
+  (position, i): Monster => ({
+    id: i,
+    kanji: initKanji[i] ?? initKanji[0],
+    position,
+    path: [],
+  }),
+);
 
 export function useKanjiMonsters() {
   const [kanjiMonsters, setKanjiMonsters] = useState(initMonsters);
@@ -42,18 +44,17 @@ export function useKanjiMonsters() {
   }, []);
 
   const target = useMemo(
-    () => getTargetKanjiMonster(kanjiMonsters).kanjiValue,
+    () => getTargetKanjiMonster(kanjiMonsters).kanji,
     [kanjiMonsters],
   );
 
   const updateKanjiMonsters = useCallback((playerPosition: Position) => {
     setKanjiMonsters((kanjiMonsters) => {
-      const targetKanji =
-        getTargetKanjiMonster(kanjiMonsters).kanjiValue.character;
+      const targetKanji = getTargetKanjiMonster(kanjiMonsters).kanji.character;
 
       return kanjiMonsters.map((kanjiMonster) => {
         if (
-          kanjiMonster.kanjiValue.character === targetKanji &&
+          kanjiMonster.kanji.character === targetKanji &&
           isOverlapping(kanjiMonster.position, playerPosition)
         ) {
           return updateKanjiMonster(kanjiMonster);
@@ -94,14 +95,14 @@ export function useKanjiMonsters() {
 
 function updateKanjiMonster(kanjiMonster: Monster): Monster {
   const kanjiIndex = initKanji.findIndex(
-    (x) => x.character === kanjiMonster.kanjiValue.character,
+    (x) => x.character === kanjiMonster.kanji.character,
   );
   const newKanjiIndex = (kanjiIndex + initMonsters.length) % initKanji.length;
   const newKanjiValue = initKanji[newKanjiIndex]!;
   return {
     ...kanjiMonster,
     id: kanjiMonster.id + initMonsters.length,
-    kanjiValue: newKanjiValue,
+    kanji: newKanjiValue,
   };
 }
 
