@@ -1,5 +1,5 @@
 import { screenWidth } from "~/utils/screen";
-import { useKanjiMonsters } from "~/utils/monsters";
+import { useMonsters } from "~/utils/monsters";
 import { LevelMap } from "~/components/level-map";
 import { useUpdateLoop } from "~/utils/update-loop";
 import { Player } from "~/components/player";
@@ -8,7 +8,7 @@ import { KanjiMonster } from "~/components/kanji-monster";
 
 export function Game() {
   const { position, setPosition, direction, setDirection } = usePlayer();
-  const { kanjiMonsters, target, updateKanjiMonsters } = useKanjiMonsters();
+  const { kanjiMonsters, target, updateKanjiMonsters } = useMonsters();
 
   useUpdateLoop({
     direction,

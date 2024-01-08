@@ -29,7 +29,7 @@ const initMonsters: Monster[] = (
   }),
 );
 
-export function useKanjiMonsters() {
+export function useMonsters() {
   const [kanjiMonsters, setKanjiMonsters] = useState(initMonsters);
 
   useEffect(() => {
