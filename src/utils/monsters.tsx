@@ -42,11 +42,11 @@ export function use() {
     })();
   }, []);
 
-  const target = useMemo(() => getTargetMonster(monsters).kanji, [monsters]);
+  const target = useMemo(() => getTarget(monsters).kanji, [monsters]);
 
   const updateMonsters = useCallback((playerPosition: Position) => {
     setMonsters((monsters) => {
-      const targetKanji = getTargetMonster(monsters).kanji.character;
+      const targetKanji = getTarget(monsters).kanji.character;
 
       return monsters.map((monster) => {
         if (
@@ -102,7 +102,7 @@ function updateMonster(monster: Monster): Monster {
   };
 }
 
-function getTargetMonster(monsters: Monster[]): Monster {
+function getTarget(monsters: Monster[]): Monster {
   return monsters.sort((a, b) => a.id - b.id)[0]!;
 }
 
