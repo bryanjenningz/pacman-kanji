@@ -1,5 +1,5 @@
 import { type Position } from "~/utils/types";
-import { blockWidth } from "~/utils/constants";
+import { blockWidth } from "~/utils/screen";
 
 export function isOverlapping<P extends Position>(a: P, b: P): boolean {
   return (

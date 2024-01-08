@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { blockWidth } from "~/utils/constants";
+import { blockWidth } from "~/utils/screen";
 import { type Position } from "~/utils/types";
 import { isOverlapping } from "~/utils/collisions";
 import { getRandomSpace } from "~/utils/level-map";

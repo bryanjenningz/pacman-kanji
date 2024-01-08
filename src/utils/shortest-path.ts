@@ -1,6 +1,6 @@
 import { levelMapSpaces } from "~/utils/level-map";
 import { type Position } from "~/utils/types";
-import { blockWidth } from "~/utils/constants";
+import { blockWidth } from "~/utils/screen";
 
 export function findShortestPath(from: Position, to: Position): Position[] {
   const visited = new Set<`x:${number},y:${number}`>();

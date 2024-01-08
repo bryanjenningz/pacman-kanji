@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { blockWidth } from "~/utils/constants";
+import { blockWidth } from "~/utils/screen";
 import { type Direction, type Position } from "~/utils/types";
 
 const initialPosition: Position = {

@@ -1,4 +1,4 @@
-import { blockWidth } from "~/utils/constants";
+import { blockWidth } from "~/utils/screen";
 import { type Position } from "~/utils/types";
 
 export const levelMap = [

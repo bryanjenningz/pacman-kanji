@@ -5,10 +5,11 @@ import {
   useEffect,
 } from "react";
 import { isOverlapping } from "~/utils/collisions";
-import { blockWidth, speed, screenWidth } from "~/utils/constants";
+import { speed } from "~/utils/constants";
 import { levelMapWalls } from "~/utils/level-map";
 import { type Direction, type Position } from "~/utils/types";
 import { useKeyboard } from "./keyboard";
+import { blockWidth, screenWidth } from "~/utils/screen";
 
 export function useUpdateLoop({
   direction,
