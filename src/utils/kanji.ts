@@ -29,7 +29,7 @@ export function parseKanji(kanjiText: string) {
       const [character, meaning] = line.split("\t");
 
       if (character && meaning) {
-        return { character: character, meaning: meaning };
+        return { character, meaning };
       }
 
       return null;
