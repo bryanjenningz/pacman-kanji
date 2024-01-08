@@ -12,7 +12,7 @@ export function KanjiMonster({ kanjiMonster }: { kanjiMonster: Monster }) {
         top: kanjiMonster.position.y,
       }}
     >
-      {kanjiMonster.kanjiValue.kanji}
+      {kanjiMonster.kanjiValue.character}
     </div>
   );
 }

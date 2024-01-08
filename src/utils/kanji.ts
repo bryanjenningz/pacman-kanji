@@ -3,7 +3,7 @@ export type Kanji = {
   meaning: string;
 };
 
-export const initKanji: Kanji[] = [
+export const initKanji: [Kanji, ...Kanji[]] = [
   { character: "一", meaning: "one" },
   { character: "二", meaning: "two" },
   { character: "三", meaning: "three" },
@@ -14,7 +14,7 @@ export const initKanji: Kanji[] = [
   { character: "八", meaning: "eight" },
   { character: "九", meaning: "nine" },
   { character: "十", meaning: "ten" },
-] as const satisfies Kanji[];
+];
 
 export async function fetchKanji(): Promise<string> {
   const response = await fetch("/heisig-kanji.txt");

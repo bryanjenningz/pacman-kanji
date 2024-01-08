@@ -4,46 +4,31 @@ import { type Position } from "~/utils/types";
 import { isOverlapping } from "~/utils/collisions";
 import { getRandomSpace } from "~/utils/level-map";
 import { findShortestPath } from "~/utils/shortest-path";
-
-type KanjiValue = {
-  kanji: string;
-  meaning: string;
-};
+import { initKanji, type Kanji } from "~/utils/kanji";
 
 export type Monster = {
   id: number;
-  kanjiValue: KanjiValue;
+  kanjiValue: Kanji;
   position: Position;
   path: Position[];
 };
 
-const kanjiValues: KanjiValue[] = [
-  { kanji: "一", meaning: "one" },
-  { kanji: "二", meaning: "two" },
-  { kanji: "三", meaning: "three" },
-  { kanji: "四", meaning: "four" },
-  { kanji: "五", meaning: "five" },
-  { kanji: "六", meaning: "six" },
-  { kanji: "七", meaning: "seven" },
-  { kanji: "八", meaning: "eight" },
-  { kanji: "九", meaning: "nine" },
-  { kanji: "十", meaning: "ten" },
-];
-
-const initialKanjiMonsters: Monster[] = [
-  { x: blockWidth * 5, y: blockWidth * 3 },
-  { x: blockWidth * 9, y: blockWidth * 3 },
-  { x: blockWidth * 5, y: blockWidth * 7 },
-  { x: blockWidth * 9, y: blockWidth * 7 },
-].map((position, i) => ({
+const initMonsters: Monster[] = (
+  [
+    { x: blockWidth * 5, y: blockWidth * 3 },
+    { x: blockWidth * 9, y: blockWidth * 3 },
+    { x: blockWidth * 5, y: blockWidth * 7 },
+    { x: blockWidth * 9, y: blockWidth * 7 },
+  ] as const
+).map((position, i) => ({
   id: i,
-  kanjiValue: kanjiValues[i]!,
+  kanjiValue: initKanji[i] ?? initKanji[0],
   position,
   path: [],
 }));
 
 export function useKanjiMonsters() {
-  const [kanjiMonsters, setKanjiMonsters] = useState(initialKanjiMonsters);
+  const [kanjiMonsters, setKanjiMonsters] = useState(initMonsters);
 
   useEffect(() => {
     void (async () => {
@@ -51,7 +36,7 @@ export function useKanjiMonsters() {
       const text = await response.text();
       text.split("\n").forEach((line, i) => {
         const [kanji, meaning] = line.split("\t");
-        kanjiValues[i] = { kanji: kanji!, meaning: meaning! };
+        initKanji[i] = { character: kanji!, meaning: meaning! };
       });
     })();
   }, []);
@@ -63,11 +48,12 @@ export function useKanjiMonsters() {
 
   const updateKanjiMonsters = useCallback((playerPosition: Position) => {
     setKanjiMonsters((kanjiMonsters) => {
-      const targetKanji = getTargetKanjiMonster(kanjiMonsters).kanjiValue.kanji;
+      const targetKanji =
+        getTargetKanjiMonster(kanjiMonsters).kanjiValue.character;
 
       return kanjiMonsters.map((kanjiMonster) => {
         if (
-          kanjiMonster.kanjiValue.kanji === targetKanji &&
+          kanjiMonster.kanjiValue.character === targetKanji &&
           isOverlapping(kanjiMonster.position, playerPosition)
         ) {
           return updateKanjiMonster(kanjiMonster);
@@ -107,15 +93,14 @@ export function useKanjiMonsters() {
 }
 
 function updateKanjiMonster(kanjiMonster: Monster): Monster {
-  const kanjiIndex = kanjiValues.findIndex(
-    (x) => x.kanji === kanjiMonster.kanjiValue.kanji,
+  const kanjiIndex = initKanji.findIndex(
+    (x) => x.character === kanjiMonster.kanjiValue.character,
   );
-  const newKanjiIndex =
-    (kanjiIndex + initialKanjiMonsters.length) % kanjiValues.length;
-  const newKanjiValue = kanjiValues[newKanjiIndex]!;
+  const newKanjiIndex = (kanjiIndex + initMonsters.length) % initKanji.length;
+  const newKanjiValue = initKanji[newKanjiIndex]!;
   return {
     ...kanjiMonster,
-    id: kanjiMonster.id + initialKanjiMonsters.length,
+    id: kanjiMonster.id + initMonsters.length,
     kanjiValue: newKanjiValue,
   };
 }
