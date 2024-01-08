@@ -15,12 +15,12 @@ export function useUpdateLoop({
   direction,
   setDirection,
   setPosition,
-  updateKanjiMonsters,
+  updateMonsters,
 }: {
   direction: Direction;
   setDirection: Dispatch<SetStateAction<Direction>>;
   setPosition: Dispatch<SetStateAction<Position>>;
-  updateKanjiMonsters: (position: Position) => void;
+  updateMonsters: (position: Position) => void;
 }) {
   const { keysDown } = useKeyboard();
 
@@ -50,7 +50,7 @@ export function useUpdateLoop({
           return newPosition;
         })();
 
-        updateKanjiMonsters(newPosition);
+        updateMonsters(newPosition);
 
         return newPosition;
       });

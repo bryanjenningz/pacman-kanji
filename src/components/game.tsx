@@ -7,13 +7,13 @@ import { usePlayer } from "~/utils/player";
 
 export function Game() {
   const { position, setPosition, direction, setDirection } = usePlayer();
-  const { monsters, target, updateKanjiMonsters } = Monsters.use();
+  const { monsters, target, updateMonsters } = Monsters.use();
 
   useUpdateLoop({
     direction,
     setDirection,
     setPosition,
-    updateKanjiMonsters,
+    updateMonsters,
   });
 
   return (
@@ -27,10 +27,8 @@ export function Game() {
         >
           <Player position={position} />
 
-          {monsters.map((kanjiMonster) => {
-            return (
-              <Monsters.View key={kanjiMonster.id} monster={kanjiMonster} />
-            );
+          {monsters.map((monster) => {
+            return <Monsters.View key={monster.id} monster={monster} />;
           })}
         </div>
       </div>
