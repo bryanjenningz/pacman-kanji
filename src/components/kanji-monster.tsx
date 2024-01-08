@@ -1,5 +1,5 @@
 import { blockWidth } from "~/utils/screen";
-import { type KanjiMonster } from "~/utils/kanji-monsters";
+import { type KanjiMonster } from "~/utils/monsters";
 
 export function KanjiMonster({ kanjiMonster }: { kanjiMonster: KanjiMonster }) {
   return (

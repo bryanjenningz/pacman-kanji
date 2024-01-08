@@ -1,5 +1,5 @@
 import { screenWidth } from "~/utils/screen";
-import { useKanjiMonsters } from "~/utils/kanji-monsters";
+import { useKanjiMonsters } from "~/utils/monsters";
 import { LevelMap } from "~/components/level-map";
 import { useUpdateLoop } from "~/utils/update-loop";
 import { Player } from "~/components/player";
