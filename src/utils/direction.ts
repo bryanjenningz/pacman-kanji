@@ -1,5 +1,16 @@
 export type Direction = "UP" | "DOWN" | "LEFT" | "RIGHT";
 
+// ARROW KEYS
+
+type ArrowKey = (typeof directionArrowKeys)[Direction];
+
+const directionArrowKeys = {
+  UP: "ArrowUp",
+  DOWN: "ArrowDown",
+  LEFT: "ArrowLeft",
+  RIGHT: "ArrowRight",
+} as const satisfies Record<Direction, string>;
+
 export function fromArrowKey(key: string): Direction | null {
   switch (key) {
     case "ArrowUp":
@@ -15,20 +26,15 @@ export function fromArrowKey(key: string): Direction | null {
   }
 }
 
-export function toArrowKey(direction: Direction): string {
-  switch (direction) {
-    case "UP":
-      return "ArrowUp";
-    case "DOWN":
-      return "ArrowDown";
-    case "LEFT":
-      return "ArrowLeft";
-    case "RIGHT":
-      return "ArrowRight";
-  }
+export function toArrowKey(direction: Direction): ArrowKey {
+  return directionArrowKeys[direction];
 }
 
-export function toDeltas(direction: Direction): { dx: number; dy: number } {
+// DELTAS
+
+type Deltas = { dx: number; dy: number };
+
+export function toDeltas(direction: Direction): Deltas {
   switch (direction) {
     case "UP":
       return { dx: 0, dy: -1 };
@@ -40,6 +46,8 @@ export function toDeltas(direction: Direction): { dx: number; dy: number } {
       return { dx: 1, dy: 0 };
   }
 }
+
+// STRING
 
 export function toString(direction: Direction): string {
   return direction.toLowerCase();
