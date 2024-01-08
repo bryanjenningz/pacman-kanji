@@ -4,7 +4,7 @@ import { type Position } from "~/utils/types";
 import { isOverlapping } from "~/utils/collisions";
 import { getRandomSpace } from "~/utils/level-map";
 import { findShortestPath } from "~/utils/shortest-path";
-import { initKanji, type Kanji } from "~/utils/kanji";
+import { fetchKanji, initKanji, parseKanji, type Kanji } from "~/utils/kanji";
 
 export type Monster = {
   id: number;
@@ -34,12 +34,11 @@ export function useMonsters() {
 
   useEffect(() => {
     void (async () => {
-      const response = await fetch("/heisig-kanji.txt");
-      const text = await response.text();
-      text.split("\n").forEach((line, i) => {
-        const [kanji, meaning] = line.split("\t");
-        initKanji[i] = { character: kanji!, meaning: meaning! };
-      });
+      const text = await fetchKanji();
+      const kanjis = parseKanji(text);
+      for (const [i, kanji] of kanjis.entries()) {
+        initKanji[i] = kanji;
+      }
     })();
   }, []);
 
