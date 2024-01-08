@@ -91,8 +91,8 @@ export function useKanjiMonsters() {
           };
         }
 
-        const dx = clamp(-1, nextStep.x - kanjiMonster.position.x, 1);
-        const dy = clamp(-1, nextStep.y - kanjiMonster.position.y, 1);
+        const dx = clamp(-speed, nextStep.x - kanjiMonster.position.x, speed);
+        const dy = clamp(-speed, nextStep.y - kanjiMonster.position.y, speed);
         const { x, y } = kanjiMonster.position;
 
         return {
@@ -127,3 +127,5 @@ function getTargetKanjiMonster(kanjiMonsters: KanjiMonster[]): KanjiMonster {
 function clamp(lower: number, x: number, upper: number): number {
   return Math.min(upper, Math.max(lower, x));
 }
+
+const speed = 1;

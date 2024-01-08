@@ -14,3 +14,5 @@ export function usePlayer() {
   const [direction, setDirection] = useState(initialDirection);
   return { position, setPosition, direction, setDirection };
 }
+
+export const speed = 2;
