@@ -34,17 +34,15 @@ export function toArrowKey(direction: Direction): ArrowKey {
 
 type Deltas = { dx: number; dy: number };
 
+const directionDeltas = {
+  UP: { dx: 0, dy: -1 },
+  DOWN: { dx: 0, dy: 1 },
+  LEFT: { dx: -1, dy: 0 },
+  RIGHT: { dx: 1, dy: 0 },
+} as const satisfies Record<Direction, Deltas>;
+
 export function toDeltas(direction: Direction): Deltas {
-  switch (direction) {
-    case "UP":
-      return { dx: 0, dy: -1 };
-    case "DOWN":
-      return { dx: 0, dy: 1 };
-    case "LEFT":
-      return { dx: -1, dy: 0 };
-    case "RIGHT":
-      return { dx: 1, dy: 0 };
-  }
+  return directionDeltas[direction];
 }
 
 // STRING
