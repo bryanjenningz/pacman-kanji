@@ -10,7 +10,7 @@ type KanjiValue = {
   meaning: string;
 };
 
-export type KanjiMonster = {
+export type Monster = {
   id: number;
   kanjiValue: KanjiValue;
   position: Position;
@@ -30,7 +30,7 @@ const kanjiValues: KanjiValue[] = [
   { kanji: "十", meaning: "ten" },
 ];
 
-const initialKanjiMonsters: KanjiMonster[] = [
+const initialKanjiMonsters: Monster[] = [
   { x: blockWidth * 5, y: blockWidth * 3 },
   { x: blockWidth * 9, y: blockWidth * 3 },
   { x: blockWidth * 5, y: blockWidth * 7 },
@@ -106,7 +106,7 @@ export function useKanjiMonsters() {
   return { kanjiMonsters, target, updateKanjiMonsters };
 }
 
-function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
+function updateKanjiMonster(kanjiMonster: Monster): Monster {
   const kanjiIndex = kanjiValues.findIndex(
     (x) => x.kanji === kanjiMonster.kanjiValue.kanji,
   );
@@ -120,7 +120,7 @@ function updateKanjiMonster(kanjiMonster: KanjiMonster): KanjiMonster {
   };
 }
 
-function getTargetKanjiMonster(kanjiMonsters: KanjiMonster[]): KanjiMonster {
+function getTargetKanjiMonster(kanjiMonsters: Monster[]): Monster {
   return kanjiMonsters.sort((a, b) => a.id - b.id)[0]!;
 }
 

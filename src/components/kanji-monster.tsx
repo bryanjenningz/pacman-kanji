@@ -1,7 +1,7 @@
 import { blockWidth } from "~/utils/screen";
-import { type KanjiMonster } from "~/utils/monsters";
+import { type Monster } from "~/utils/monsters";
 
-export function KanjiMonster({ kanjiMonster }: { kanjiMonster: KanjiMonster }) {
+export function KanjiMonster({ kanjiMonster }: { kanjiMonster: Monster }) {
   return (
     <div
       className="absolute z-10 flex items-center justify-center bg-black text-white"
