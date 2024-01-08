@@ -1,14 +1,13 @@
 import { screenWidth } from "~/utils/screen";
-import { useMonsters } from "~/utils/monsters";
+import * as Monsters from "~/utils/monsters";
 import { LevelMap } from "~/components/level-map";
 import { useUpdateLoop } from "~/utils/update-loop";
 import { Player } from "~/components/player";
 import { usePlayer } from "~/utils/player";
-import { KanjiMonster } from "~/components/kanji-monster";
 
 export function Game() {
   const { position, setPosition, direction, setDirection } = usePlayer();
-  const { kanjiMonsters, target, updateKanjiMonsters } = useMonsters();
+  const { kanjiMonsters, target, updateKanjiMonsters } = Monsters.use();
 
   useUpdateLoop({
     direction,
@@ -30,7 +29,7 @@ export function Game() {
 
           {kanjiMonsters.map((kanjiMonster) => {
             return (
-              <KanjiMonster key={kanjiMonster.id} kanjiMonster={kanjiMonster} />
+              <Monsters.View key={kanjiMonster.id} monster={kanjiMonster} />
             );
           })}
         </div>
